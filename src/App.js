@@ -9,6 +9,7 @@ import {
   Card,
   Typography,
 } from 'antd';
+import { CheckCircleTwoTone } from '@ant-design/icons';
 import { Conflux, address, Drip } from 'js-conflux-sdk';
 const { Text } = Typography;
 
@@ -82,9 +83,10 @@ function App() {
               <p>Account Current Nonce: <Text type='success' strong>{nonce}</Text></p>
               <p>Account Current Balance: <Text type='success' strong>{balance} CFX</Text></p>
               <p>Pending TX Count: <Text type='danger' strong>{pendingInfo.pendingCount.toString()}</Text></p>
-              <p>First TX Pending Status: <Text type='danger' strong>{pendingStatus(pendingInfo.firstTxStatus)}</Text></p>
+              <p>First Pending TX Status: <Text type='danger' strong>{pendingStatus(pendingInfo.firstTxStatus)}</Text></p>
               <p>First Pending TX Nonce: <Text type='danger' strong>{pendingInfo.pendingTransactions[0].nonce}</Text></p>
               <p>First Pending TX Hash: {hashLink(account, pendingInfo.pendingTransactions[0].hash)}</p>
+              <p>Possible Solution: {pendingStatus(pendingInfo.firstTxStatus) === 'FutureNonce' ? 'Use the correct nonce send tx' : 'Get enough balance'}</p>
             </Card>
           </Col>
         </Row>
@@ -94,7 +96,10 @@ function App() {
         <Row justify='center' className='mt-10'>
           <Col span={8}>
             <Card>
-              <p>Congratulations this account have no pending transactions</p>
+              <div style={{textAlign: 'center'}}>
+                <CheckCircleTwoTone twoToneColor="#52c41a" style={{fontSize: '50px'}} />
+                <p className='mt-10'>Congratulations this account have no pending transactions</p>
+              </div>
             </Card>
           </Col>
         </Row>
@@ -112,16 +117,15 @@ function App() {
       <Row justify='center' className='mt-10'>
         <Col span={8}>
           <Form layout='inline'>
-            <Form.Item>
+            <Form.Item style={{width: '80%'}} >
               <Input 
-                style={{width: '420px'}} 
                 size='large' 
                 placeholder="Input your Conflux address"
                 onChange={e => setAccount(e.target.value)}
               />
             </Form.Item>
             <Form.Item>
-              <Button size='large' type="primary" onClick={checkPendingTx}>Check</Button>
+              <Button size='large' type="primary" onClick={checkPendingTx} style={{width: "100%"}}>Check</Button>
             </Form.Item>
           </Form>
         </Col>
@@ -130,11 +134,17 @@ function App() {
       <Row className='mt-10' justify='center'>
         <Col span={8}>
           <Card>
-            <p>Possible Pending Reasons:</p>
+            <h3>Possible Pending Reasons:</h3>
             <ul>
               <li>1. NotEnoughCash: Sender account do not have enough CFX for the transaction</li>
               <li>2. FutureNonce: Use a Wrong nonce</li>
               <li>3. Ready: Ready for miner pack</li>
+            </ul>
+            <h3>Documentation about Conflux Transaction:</h3>
+            <ul>
+              <li>1. <a href='https://developer.confluxnetwork.org/sending-tx/en/transaction_explain'>Transaction complete explanation</a></li>
+              <li>2. <a href='https://developer.confluxnetwork.org/sending-tx/en/transaction_stage'>Transaction Stages explain</a></li>
+              <li>3. <a href="https://developer.confluxnetwork.org/sending-tx/en/why_tx_is_pending">Why Transaction is Pending</a></li>
             </ul>
           </Card>
         </Col>
