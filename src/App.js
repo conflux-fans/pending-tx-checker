@@ -137,8 +137,8 @@ function App() {
             <h3>Possible Pending Reasons:</h3>
             <ul>
               <li>1. NotEnoughCash: Sender account do not have enough CFX for the transaction</li>
-              <li>2. FutureNonce: Use a Wrong nonce</li>
-              <li>3. Ready: Ready for miner pack</li>
+              <li>2. FutureNonce: Use a skipped nonce</li>
+              <li>3. Ready: Ready for miner to pack</li>
             </ul>
             <h3>Documentation about Conflux Transaction:</h3>
             <ul>
